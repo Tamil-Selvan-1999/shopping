@@ -101,3 +101,13 @@ components:
           items:
             $ref: "#/components/schemas/OrderItem"
       required: [items]
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+      required: [code, message]

@@ -2,11 +2,9 @@
 description: "Task list for Shopping POC implementation"
 ---
 
-## description: "Task list for Shopping POC implementation"
-
 # Tasks: Shopping POC
 
-**Input**: Design documents from /specs/1-shopping-poc/  
+**Input**: Design documents from `/specs/001-shopping-poc/`  
 **Prerequisites**: `plan.md`, `spec.md` (existing)
 
 ## Phase 1: Setup (Shared Infrastructure)
@@ -31,8 +29,14 @@ description: "Task list for Shopping POC implementation"
 - [ ] T009 [P] Define Pydantic schemas/models for Product, User, Order in `src/backend/app/schemas.py` (src/backend/app/schemas.py)
 - [ ] T010 [P] Configure basic error handling and structured logging for backend in `src/backend/app/main.py` (src/backend/app/main.py)
 - [ ] T011 [P] Add automated check/CI job draft to validate that frontend files exist only under `src/frontend` and backend files under `src/backend` (.github/workflows/ci-validate-boundaries.yml)
+- [ ] T006 Setup MongoDB connectivity and health-check endpoint in `src/backend/app/db.py` and `src/backend/app/main.py` (src/backend/app/db.py, src/backend/app/main.py)
+- [ ] T007 [P] Implement authentication helpers (password hashing, JWT creation/verification) in `src/backend/app/auth.py` (src/backend/app/auth.py)
+- [ ] T008 [P] Setup API routing, CORS, and middleware structure in `src/backend/app/main.py` (src/backend/app/main.py)
+- [ ] T009 [P] Define Pydantic schemas/models for Product, User, Order in `src/backend/app/schemas.py` (src/backend/app/schemas.py)
+- [ ] T010 [P] Configure basic error handling and structured logging for backend in `src/backend/app/main.py` (src/backend/app/main.py)
+- [ ] T011 [P] Add automated check/CI job draft to validate that frontend files exist only under `src/frontend` and backend files under `src/backend` (.github/workflows/ci-validate-boundaries.yml)
 - [ ] T031 [P] Implement request validation for Product/User/Order schemas and middleware in `src/backend/app/schemas.py` and `src/backend/app/main.py` (src/backend/app/schemas.py, src/backend/app/main.py)
-- [ ] T032 [P] Add contract tests verifying invalid requests return 4xx with JSON error format in `specs/1-shopping-poc/tests/contract/test_validation.py` (specs/1-shopping-poc/tests/contract/test_validation.py)
+- [ ] T032 [P] Add contract tests verifying invalid requests return 4xx with JSON error format in `specs/001-shopping-poc/tests/contract/test_validation.py` (specs/001-shopping-poc/tests/contract/test_validation.py)
 
 **Checkpoint**: Foundational phase complete — user story work may begin
 
@@ -50,8 +54,8 @@ description: "Task list for Shopping POC implementation"
 - [ ] T013 [P] [US1] Implement `POST /api/v1/orders` endpoint and persistence logic in `src/backend/app/main.py` and `src/backend/app/db.py` (src/backend/app/main.py, src/backend/app/db.py)
 - [ ] T014 [US1] Create frontend product listing page at `src/frontend/app/products/page.tsx` and wire API calls (src/frontend/app/products/page.tsx)
 - [ ] T015 [US1] Implement frontend cart UI and checkout flow (client-side state) in `src/frontend/app/` (suggested files: `src/frontend/app/cart/page.tsx`, `src/frontend/app/checkout/page.tsx`)
-- [ ] T016 [P] [US1] Add a simple integration test to `specs/1-shopping-poc/tests/integration/test_place_order.py` that posts an order and verifies DB record (specs/1-shopping-poc/tests/integration/test_place_order.py)
-- [ ] T017 [US1] Update `specs/1-shopping-poc/quickstart.md` with demo steps for placing an order (specs/1-shopping-poc/quickstart.md)
+- [ ] T016 [P] [US1] Add a simple integration test to `specs/001-shopping-poc/tests/integration/test_place_order.py` that posts an order and verifies DB record (specs/001-shopping-poc/tests/integration/test_place_order.py)
+- [ ] T017 [US1] Update `specs/001-shopping-poc/quickstart.md` with demo steps for placing an order (specs/001-shopping-poc/quickstart.md)
 
 **Checkpoint**: US1 should be independently demonstrable
 
@@ -67,7 +71,7 @@ description: "Task list for Shopping POC implementation"
 - [ ] T019 [P] [US2] Implement JWT creation/verification and password hashing in `src/backend/app/auth.py` (src/backend/app/auth.py)
 - [ ] T020 [P] [US2] Implement frontend login/register pages and token storage at `src/frontend/app/login/page.tsx` and `src/frontend/app/register/page.tsx` (src/frontend/app/login/page.tsx)
 - [ ] T021 [P] [US2] Ensure frontend attaches `Authorization: Bearer <token>` to protected API calls (src/frontend/app/\*)
-- [ ] T022 [P] [US2] Add contract tests for auth endpoints in `specs/1-shopping-poc/tests/contract/test_auth.py` (specs/1-shopping-poc/tests/contract/test_auth.py)
+- [ ] T022 [P] [US2] Add contract tests for auth endpoints in `specs/001-shopping-poc/tests/contract/test_auth.py` (specs/001-shopping-poc/tests/contract/test_auth.py)
 
 ---
 
@@ -79,7 +83,7 @@ description: "Task list for Shopping POC implementation"
 
 - [ ] T023 [P] [US3] Implement protected `POST /api/v1/products` in `src/backend/app/main.py` (src/backend/app/main.py)
 - [ ] T024 [P] [US3] Add admin seed script `src/backend/scripts/seed_admin.py` to create admin account and print JWT (src/backend/scripts/seed_admin.py)
-- [ ] T025 [P] [US3] Add contract tests for product creation in `specs/1-shopping-poc/tests/contract/test_products.py` (specs/1-shopping-poc/tests/contract/test_products.py)
+- [ ] T025 [P] [US3] Add contract tests for product creation in `specs/001-shopping-poc/tests/contract/test_products.py` (specs/001-shopping-poc/tests/contract/test_products.py)
 - [ ] T026 [P] [US3] (Optional) Minimal admin UI for product creation at `src/frontend/app/admin/page.tsx` (src/frontend/app/admin/page.tsx)
 
 ---
@@ -88,12 +92,10 @@ description: "Task list for Shopping POC implementation"
 
 **Purpose**: Documentation, CI, formatting, and security hardening
 
-- [ ] T027 [P] Documentation updates: finalize `specs/1-shopping-poc/*.md` and `src/*/README.md` (specs/1-shopping-poc/, src/frontend/README.md, src/backend/README.md)
+- [ ] T027 [P] Documentation updates: finalize `specs/001-shopping-poc/*.md` and `src/*/README.md` (specs/001-shopping-poc/, src/frontend/README.md, src/backend/README.md)
 - [ ] T028 [P] Add GitHub Action to validate frontend/backend separation and MongoDB-only persistence (`.github/workflows/validate-boundaries.yml`)
 - [ ] T029 [P] Add pre-commit hooks and CI lint job (`.husky/` or `.github/workflows/lint.yml`, `pyproject.toml`) (repo root)
-- [ ] T030 [P] Run smoke tests and integration tests in CI (workflows) (specs/1-shopping-poc/tests/)
-
-- [ ] T033 [P] Resolve embedded `src/frontend` git repository: remove embedded repo or convert to a documented submodule and update CI docs (repo root)
+- [ ] T030 [P] Run smoke tests and integration tests in CI (workflows) (specs/001-shopping-poc/tests/)
 
 ---
 
@@ -121,21 +123,21 @@ Example parallel command for US1 contract + integration tests:
 
 ```bash
 # run contract tests in parallel (example)
-pytest specs/1-shopping-poc/tests/contract/ -q & pytest specs/1-shopping-poc/tests/integration/ -q
+pytest specs/001-shopping-poc/tests/contract/ -q & pytest specs/001-shopping-poc/tests/integration/ -q
 ```
 
 ---
 
 ## Implementation Strategy
 
-**MVP First (User Story 1 Only)**
+**MVP First (User Story 1 Only)**n
 
 1. Complete Phase 1: Setup
 2. Complete Phase 2: Foundational
 3. Implement Phase 3: User Story 1 and validate end-to-end
 4. Stop and demo the browse → add to cart → place order flow
 
-**Incremental Delivery**
+**Incremental Delivery**n
 
 - After MVP, implement US2 (auth) then US3 (product management)
 - Each story should remain independently testable and demoable

@@ -101,6 +101,21 @@ A maintainer may add or update product entries via backend API (UI optional for 
 - Q: Which authentication mechanism should the POC use? → A: JWT bearer tokens (Authorization: Bearer <token>)
 - Q: Should guest checkout be allowed? → A: Yes — guest checkout allowed (orders may be placed without authentication; `userId` stored as null).
 
+## Admin Provisioning (required)
+
+- Seed script: A seed script exists at `src/backend/scripts/seed_admin.py` that creates an initial admin account when run locally. The script MUST accept or read environment variables for admin email and password, and should print an admin JWT after creation for quick testing.
+- Required env vars (backend):
+  - `ADMIN_EMAIL` — the email to create for the admin account (default: `admin@example.com` when not provided).
+  - `ADMIN_PASSWORD` — plaintext password for the seeded admin (must be provided for CI or set in dev only).
+  - `JWT_SECRET` — secret used to sign JWT tokens (mandatory for running the app).
+- Admin role: The `User` entity includes a boolean `isAdmin` flag. Admin-only endpoints (e.g., `POST /api/v1/products`) validate `isAdmin` server-side.
+- JWT lifetime: The seed script prints a long-lived demo JWT (e.g., 30d) for local demos; production deployments MUST use shorter secrets/expirations and secure secret management.
+
+Acceptance criteria for admin provisioning:
+
+1. Running `python src/backend/scripts/seed_admin.py` with `ADMIN_EMAIL` and `ADMIN_PASSWORD` set creates a user with `isAdmin: true` in MongoDB and prints a JWT.
+2. The backend enforces `isAdmin` checks for admin-only endpoints; contract tests verify admin-required endpoints return `403` for non-admin tokens.
+
 ## UI & Client-State Scope (Clarification)
 
 - Required UI screens: Product List, Product Detail, Cart, Checkout, Login, Register.
