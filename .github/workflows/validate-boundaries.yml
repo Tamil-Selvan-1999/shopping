@@ -1,0 +1,50 @@
+name: Validate Frontend/Backend Boundaries
+
+on:
+  pull_request:
+    paths:
+      - "src/**"
+  push:
+    paths:
+      - "src/**"
+
+jobs:
+  validate-boundaries:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Find changed files
+        id: changes
+        run: |
+          git fetch --no-tags --prune --depth=1 origin ${{ github.ref }} || true
+          echo "::set-output name=files::$(git diff --name-only ${{ github.sha }} $(git rev-parse --short HEAD) || true)"
+      - name: Enforce directory separation and DB usage
+        run: |
+          set -e
+          # Fail if frontend files contain server-only imports
+          FRONTEND_VIOLATIONS=0
+          for f in $(git diff --name-only HEAD^ HEAD || true); do
+            if [[ "$f" == src/frontend/* ]]; then
+              if grep -E "motor|pymongo|psycopg|pg8000|sqlite3|sqlalchemy|mysql" -n "$f" >/dev/null 2>&1; then
+                echo "ERROR: Frontend file $f imports server DB drivers or server-only libraries"
+                FRONTEND_VIOLATIONS=1
+              fi
+            fi
+            if [[ "$f" == src/backend/* ]]; then
+              if grep -E "react|next|window\.|document\.|localStorage" -n "$f" >/dev/null 2>&1; then
+                echo "ERROR: Backend file $f contains frontend-only globals or imports"
+                FRONTEND_VIOLATIONS=1
+              fi
+              # Ensure no new DB types are introduced in backend requirements
+              if [[ "$f" == src/backend/requirements.txt ]]; then
+                if grep -Ei "psycopg2|psycopg|mysqlclient|sqlite3|sqlalchemy" src/backend/requirements.txt >/dev/null 2>&1; then
+                  echo "ERROR: Backend requirements introduce non-MongoDB DB drivers"
+                  FRONTEND_VIOLATIONS=1
+                fi
+              fi
+            fi
+          done
+          if [ "$FRONTEND_VIOLATIONS" -ne 0 ]; then
+            echo "Boundary validation failed"; exit 1
+          fi
+        shell: bash

@@ -28,12 +28,12 @@ A shopper can create an account and sign in. The backend enforces authentication
 
 **Why this priority**: Authentication is required for account tracking and order history but is secondary to demonstrating placing an order.
 
-**Independent Test**: Create account via frontend form → backend returns success and session token → use token to fetch user-specific endpoints (e.g., order history).
+**Independent Test**: Create account via frontend form → backend returns success and a JWT bearer token → use token to fetch user-specific endpoints (e.g., order history).
 
 **Acceptance Scenarios**:
 
-1. **Given** a new user, **When** they submit the registration form, **Then** backend creates the user and returns a session token or directs user to login.
-2. **Given** valid credentials, **When** user logs in, **Then** backend returns a session token and protected endpoints succeed using that token.
+1. **Given** a new user, **When** they submit the registration form, **Then** backend creates the user and returns a JWT bearer token or directs user to login.
+2. **Given** valid credentials, **When** user logs in, **Then** backend returns a JWT bearer token and protected endpoints succeed using that token.
 
 ---
 
@@ -63,10 +63,8 @@ A maintainer may add or update product entries via backend API (UI optional for 
 
 - **FR-001**: System MUST return a list of products via a backend API endpoint; frontend MUST display that list.
 - **FR-002**: System MUST allow adding items to a cart on the frontend; the cart view MUST be able to submit an order request to the backend.
-- **FR-003**: Backend MUST create an order record when the frontend places an order; the record MUST include items, quantities, total amount, timestamp, and user identifier when available.
 - **FR-003**: Backend MUST create an order record when the frontend places an order; the record MUST include items, quantities, total amount, timestamp, and `userId` (nullable to allow guest checkout). When a user is authenticated, `userId` SHOULD reference that user.
-- **FR-004**: Backend MUST implement authentication endpoints (register, login, logout) and issue session tokens; frontend MUST store tokens for session continuity but MUST NOT enforce server-side rules.
-- **FR-004**: Backend MUST implement authentication endpoints (register, login, logout) and issue session tokens. Authentication for the POC WILL use JWT bearer tokens (sent in `Authorization: Bearer <token>`). The frontend MUST store tokens for session continuity but MUST NOT perform authoritative validation or authorization decisions.
+- **FR-004**: Backend MUST implement authentication endpoints (register, login, logout) and issue JWT bearer tokens (sent in `Authorization: Bearer <token>`). The frontend MUST store tokens for session continuity but MUST NOT perform authoritative validation or authorization decisions.
 - **FR-005**: Backend MUST expose simple, versioned REST APIs (e.g., `/api/v1/products`, `/api/v1/cart`, `/api/v1/orders`, `/api/v1/auth`).
 - **FR-006**: MongoDB MUST be used as the sole persistent store; backend MUST persist products, users, and orders in MongoDB.
 - **FR-007**: Backend MUST validate and sanitize inputs for all public endpoints and return appropriate error codes for invalid requests.
@@ -102,6 +100,12 @@ A maintainer may add or update product entries via backend API (UI optional for 
 
 - Q: Which authentication mechanism should the POC use? → A: JWT bearer tokens (Authorization: Bearer <token>)
 - Q: Should guest checkout be allowed? → A: Yes — guest checkout allowed (orders may be placed without authentication; `userId` stored as null).
+
+## UI & Client-State Scope (Clarification)
+
+- Required UI screens: Product List, Product Detail, Cart, Checkout, Login, Register.
+- Client-side state for POC: cart (stored in browser `localStorage`) and JWT token for session continuity only. The frontend MUST NOT persist order data or business rules.
+- Performance/UX boundary: primary flow (browse → add to cart → place order) should complete in under 2 minutes on a local dev machine; pages should render within 2s on typical dev hardware.
 
 ## Acceptance Tests (examples)
 

@@ -29,6 +29,14 @@ description: "Task list for Shopping POC implementation"
 - [ ] T009 [P] Define Pydantic schemas/models for Product, User, Order in `src/backend/app/schemas.py` (src/backend/app/schemas.py)
 - [ ] T010 [P] Configure basic error handling and structured logging for backend in `src/backend/app/main.py` (src/backend/app/main.py)
 - [ ] T011 [P] Add automated check/CI job draft to validate that frontend files exist only under `src/frontend` and backend files under `src/backend` (.github/workflows/ci-validate-boundaries.yml)
+- [ ] T006 Setup MongoDB connectivity and health-check endpoint in `src/backend/app/db.py` and `src/backend/app/main.py` (src/backend/app/db.py, src/backend/app/main.py)
+- [ ] T007 [P] Implement authentication helpers (password hashing, JWT creation/verification) in `src/backend/app/auth.py` (src/backend/app/auth.py)
+- [ ] T008 [P] Setup API routing, CORS, and middleware structure in `src/backend/app/main.py` (src/backend/app/main.py)
+- [ ] T009 [P] Define Pydantic schemas/models for Product, User, Order in `src/backend/app/schemas.py` (src/backend/app/schemas.py)
+- [ ] T010 [P] Configure basic error handling and structured logging for backend in `src/backend/app/main.py` (src/backend/app/main.py)
+- [ ] T011 [P] Add automated check/CI job draft to validate that frontend files exist only under `src/frontend` and backend files under `src/backend` (.github/workflows/ci-validate-boundaries.yml)
+- [ ] T031 [P] Implement request validation for Product/User/Order schemas and middleware in `src/backend/app/schemas.py` and `src/backend/app/main.py` (src/backend/app/schemas.py, src/backend/app/main.py)
+- [ ] T032 [P] Add contract tests verifying invalid requests return 4xx with JSON error format in `specs/1-shopping-poc/tests/contract/test_validation.py` (specs/1-shopping-poc/tests/contract/test_validation.py)
 
 **Checkpoint**: Foundational phase complete — user story work may begin
 
