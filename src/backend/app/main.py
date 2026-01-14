@@ -38,6 +38,29 @@ def get_user_from_token(authorization: Optional[str] = Header(None)):
     return payload.get("sub")
 
 
+def get_optional_user_from_token(authorization: Optional[str] = Header(None)):
+    """Return user id from bearer token or None when no Authorization header provided.
+
+    If the header is present but invalid, raise 401. If header missing, return None (guest).
+    """
+    if not authorization:
+        return None
+    parts = authorization.split()
+    if len(parts) != 2 or parts[0].lower() != "bearer":
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid authorization header format",
+        )
+    token = parts[1]
+    try:
+        payload = auth.decode_access_token(token)
+    except Exception:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token"
+        )
+    return payload.get("sub")
+
+
 @app.on_event("startup")
 async def startup_db_client():
     # ensure lazy client exists
@@ -102,12 +125,13 @@ async def login(user: schemas.UserCreate):
 
 @app.post("/api/v1/orders")
 async def place_order(
-    order: schemas.OrderCreate, user: Optional[str] = Depends(get_user_from_token)
+    order: schemas.OrderCreate,
+    user: Optional[str] = Depends(get_optional_user_from_token),
 ):
     database = db.get_db()
     total = sum(item.price * item.quantity for item in order.items)
     doc = {
-        "userId": user,
+        "userId": user if user is not None else None,
         "items": [o.dict() for o in order.items],
         "totalAmount": total,
     }

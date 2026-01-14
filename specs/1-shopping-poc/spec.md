@@ -64,6 +64,7 @@ A maintainer may add or update product entries via backend API (UI optional for 
 - **FR-001**: System MUST return a list of products via a backend API endpoint; frontend MUST display that list.
 - **FR-002**: System MUST allow adding items to a cart on the frontend; the cart view MUST be able to submit an order request to the backend.
 - **FR-003**: Backend MUST create an order record when the frontend places an order; the record MUST include items, quantities, total amount, timestamp, and user identifier when available.
+- **FR-003**: Backend MUST create an order record when the frontend places an order; the record MUST include items, quantities, total amount, timestamp, and `userId` (nullable to allow guest checkout). When a user is authenticated, `userId` SHOULD reference that user.
 - **FR-004**: Backend MUST implement authentication endpoints (register, login, logout) and issue session tokens; frontend MUST store tokens for session continuity but MUST NOT enforce server-side rules.
 - **FR-004**: Backend MUST implement authentication endpoints (register, login, logout) and issue session tokens. Authentication for the POC WILL use JWT bearer tokens (sent in `Authorization: Bearer <token>`). The frontend MUST store tokens for session continuity but MUST NOT perform authoritative validation or authorization decisions.
 - **FR-005**: Backend MUST expose simple, versioned REST APIs (e.g., `/api/v1/products`, `/api/v1/cart`, `/api/v1/orders`, `/api/v1/auth`).
@@ -100,6 +101,7 @@ A maintainer may add or update product entries via backend API (UI optional for 
 ### Session 2026-01-14
 
 - Q: Which authentication mechanism should the POC use? → A: JWT bearer tokens (Authorization: Bearer <token>)
+- Q: Should guest checkout be allowed? → A: Yes — guest checkout allowed (orders may be placed without authentication; `userId` stored as null).
 
 ## Acceptance Tests (examples)
 
