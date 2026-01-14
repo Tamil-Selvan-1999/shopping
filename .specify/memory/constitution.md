@@ -55,6 +55,10 @@ Technical constraints (high level):
 - Network: All client operations that require data or logic MUST call the backend APIs; no business logic may be embedded in the frontend.
 - Authentication: Implemented and enforced by backend; frontend only carries tokens for session continuity.
 
+### Embedded Repositories / Submodules
+
+Embedded git repositories (gitlinks/submodules) under `src/frontend` or `src/backend` are disallowed by default. An embedded repository hides file contents from a plain clone of the parent repo and can break constitution checks and CI validation that assumes a single coherent repository. If a sub-repository is required, it MUST be added explicitly as a documented Git submodule and the PR should include instructions for cloning (`git submodule update --init --recursive`) and rationale for why a submodule is necessary. Prefer copying or integrating the code under the appropriate `src/` directory for POC-level work.
+
 These boundaries are non-negotiable for the POC and are intended to keep scope small and responsibilities clear.
 
 ## Development Workflow & Quality Gates
