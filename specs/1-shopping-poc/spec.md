@@ -116,6 +116,21 @@ Acceptance criteria for admin provisioning:
 1. Running `python src/backend/scripts/seed_admin.py` with `ADMIN_EMAIL` and `ADMIN_PASSWORD` set creates a user with `isAdmin: true` in MongoDB and prints a JWT.
 2. The backend enforces `isAdmin` checks for admin-only endpoints; contract tests verify admin-required endpoints return `403` for non-admin tokens.
 
+## Order Lifecycle & Idempotency (required)
+
+For predictable demos and safe retries, the POC MUST define a simple order lifecycle and idempotency behavior:
+
+- `order.status` values: `pending` (created, processing), `placed` (successfully persisted), `failed` (processing failed), `cancelled` (explicitly cancelled).
+- Idempotency: `POST /api/v1/orders` SHOULD accept an optional `Idempotency-Key` header. When provided, the backend MUST ensure that repeated requests with the same `Idempotency-Key` and identical payload do not create duplicate orders. The backend SHOULD store the idempotency key and associated result for a reasonable demo duration (e.g., 24 hours) and return the same order response for repeated requests.
+- Error handling: If a repeated request with the same `Idempotency-Key` includes a different payload, the backend MUST return `409 Conflict` with an `Error` body explaining the mismatch.
+
+Acceptance criteria for idempotency and lifecycle:
+
+1. Creating an order without `Idempotency-Key` behaves as standard POST: each request may create a distinct order.
+2. Creating an order with `Idempotency-Key` returns the same order on repeated identical requests and does not create duplicates.
+3. A repeated request with the same `Idempotency-Key` but a different payload returns `409 Conflict`.
+4. Orders are persisted with an initial `status: pending` and move to `placed` on success.
+
 ## UI & Client-State Scope (Clarification)
 
 - Required UI screens: Product List, Product Detail, Cart, Checkout, Login, Register.
