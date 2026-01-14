@@ -12,3 +12,6 @@ starlette==0.50.0
 typing-inspection==0.4.2
 typing_extensions==4.15.0
 uvicorn==0.40.0
+motor==4.4.0
+PyJWT==2.8.0
+passlib[bcrypt]==1.7.4

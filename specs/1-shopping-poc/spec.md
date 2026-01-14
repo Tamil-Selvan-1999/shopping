@@ -65,6 +65,7 @@ A maintainer may add or update product entries via backend API (UI optional for 
 - **FR-002**: System MUST allow adding items to a cart on the frontend; the cart view MUST be able to submit an order request to the backend.
 - **FR-003**: Backend MUST create an order record when the frontend places an order; the record MUST include items, quantities, total amount, timestamp, and user identifier when available.
 - **FR-004**: Backend MUST implement authentication endpoints (register, login, logout) and issue session tokens; frontend MUST store tokens for session continuity but MUST NOT enforce server-side rules.
+- **FR-004**: Backend MUST implement authentication endpoints (register, login, logout) and issue session tokens. Authentication for the POC WILL use JWT bearer tokens (sent in `Authorization: Bearer <token>`). The frontend MUST store tokens for session continuity but MUST NOT perform authoritative validation or authorization decisions.
 - **FR-005**: Backend MUST expose simple, versioned REST APIs (e.g., `/api/v1/products`, `/api/v1/cart`, `/api/v1/orders`, `/api/v1/auth`).
 - **FR-006**: MongoDB MUST be used as the sole persistent store; backend MUST persist products, users, and orders in MongoDB.
 - **FR-007**: Backend MUST validate and sanitize inputs for all public endpoints and return appropriate error codes for invalid requests.
@@ -93,6 +94,12 @@ A maintainer may add or update product entries via backend API (UI optional for 
 - Authentication may use simple token-based sessions; implementation detail is left to the backend team, but authorization decisions must be enforced server-side.
 - Minimal UI: product list, product detail, cart, checkout, login/register screens are sufficient for demo purposes.
 - The user requested Next.js + FastAPI + MongoDB; this spec assumes those technologies as project constraints.
+
+## Clarifications
+
+### Session 2026-01-14
+
+- Q: Which authentication mechanism should the POC use? → A: JWT bearer tokens (Authorization: Bearer <token>)
 
 ## Acceptance Tests (examples)
 
