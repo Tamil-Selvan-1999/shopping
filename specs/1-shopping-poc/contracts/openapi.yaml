@@ -58,6 +58,12 @@ paths:
       responses:
         "200":
           description: Order created
+        "409":
+          description: Conflict when Idempotency-Key present with different payload
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
   schemas:
     ProductIn:

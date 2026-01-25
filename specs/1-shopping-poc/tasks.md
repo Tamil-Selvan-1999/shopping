@@ -34,6 +34,10 @@ description: "Task list for Shopping POC implementation"
 - [ ] T031 [P] Implement request validation for Product/User/Order schemas and middleware in `src/backend/app/schemas.py` and `src/backend/app/main.py` (src/backend/app/schemas.py, src/backend/app/main.py)
 - [ ] T032 [P] Add contract tests verifying invalid requests return 4xx with JSON error format in `specs/1-shopping-poc/tests/contract/test_validation.py` (specs/1-shopping-poc/tests/contract/test_validation.py)
 
+- [ ] T034 [P] Define order lifecycle (`pending|placed|failed|cancelled`) and idempotency rules in `specs/1-shopping-poc/spec.md` and implement in backend (src/backend) (specs/1-shopping-poc/spec.md, src/backend)
+- [ ] T035 [P] Add contract/integration tests for order idempotency and conflict behavior in `specs/1-shopping-poc/tests/contract/test_order_idempotency.py` (specs/1-shopping-poc/tests/contract/test_order_idempotency.py)
+- [ ] T036 [P] Add a lightweight performance smoke test `specs/1-shopping-poc/tests/ci/test_perf_smoke.py` asserting primary flow response times (<2s) and wire it into CI as an optional smoke job (specs/1-shopping-poc/tests/ci/test_perf_smoke.py, .github/workflows)
+
 **Checkpoint**: Foundational phase complete — user story work may begin
 
 ---
